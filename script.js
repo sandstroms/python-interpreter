@@ -21,11 +21,16 @@ function submit() {
        }
   }
   let firstCharacterOfVarRegexp = new RegExp("[a-z]", "i");
+  let restOfVarRegexp = new RegExp("[a-z0-9_]", "i");
 
   if(text[0] && firstCharacterOfVarRegexp.test(text[0])) {
     let varName = text[0];
     let i = 1;
     while(text[i] && text[i] !== ' ') {
+      if(!restOfVarRegexp.test(text[i])) {
+        document.getElementById("output").innerHTML = "Invalid variable name";
+        break;
+      }
       varName += text[i];
       i++;
     }
