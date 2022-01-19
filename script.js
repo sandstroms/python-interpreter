@@ -7,8 +7,8 @@ function submit() {
        if(text[5] && text[5] === '(') {
          stack.push(text[5]);
        };
-       var i = 7;
-       var output = "";
+       let i = 7;
+       let output = "";
        if(text[6] && text[6] === '"') {
          while(text[i] && text[i] !== '"') {
            output += text[i];
@@ -19,7 +19,15 @@ function submit() {
        if(text[i] && text[i] === ')') {
          document.getElementById("output").innerHTML = output;
        }
+  }
+  let firstCharacterOfVarRegexp = new RegExp("[a-z]", "i");
 
-
+  if(text[0] && firstCharacterOfVarRegexp.test(text[0])) {
+    let varName = text[0];
+    let i = 1;
+    while(text[i] && text[i] !== ' ') {
+      varName += text[i];
+      i++;
+    }
   }
 }
