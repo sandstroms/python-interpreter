@@ -9,14 +9,14 @@ function submit() {
        };
        var i = 7;
        var output = "";
-       if(text[6] === '"') {
+       if(text[6] && text[6] === '"') {
          while(text[i] && text[i] !== '"') {
            output += text[i];
            i++;
          }
        }
        i++;
-       if(text[i] === ')') {
+       if(text[i] && text[i] === ')') {
          document.getElementById("output").innerHTML = output;
        }
 
