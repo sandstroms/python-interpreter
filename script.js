@@ -1,5 +1,6 @@
 function submit() {
   let text = document.getElementById("input").value;
+  let isNumberRegexp = new RegExp("[0-9]")
   if(text[0] && text[0] === 'p' && text[1] && text[1] === 'r' &&
      text[2] && text[2] === 'i' && text[3] && text[3] === 'n' &&
      text[4] && text[4] === 't') {
@@ -8,7 +9,6 @@ function submit() {
          stack.push(text[5]);
        };
        let output = "";
-       let isNumberRegexp = new RegExp("[0-9]")
        if(text[6] && isNumberRegexp.test(text[6])) {
          let num1 = text[6];
          let i = 7;
@@ -81,6 +81,27 @@ function submit() {
         }
         varName += text[i];
         i++;
+      }
+      i++;
+      if(text[i] && text[i] == '=') {
+        i++;
+        if(text[i] && text[i] == ' ') {
+          i++;
+          if(text[i] && text[i] == '"') {
+            let variableValue = "";
+            i++;
+            while(text[i] && text[i] !== '"') {
+              variableValue += text[i];
+              i++;
+            }
+          } else {
+            let variableValue = "";
+            while(text[i] && isNumberRegexp.test(text[i])) {
+              variableValue += text[i];
+              i++;
+            }
+          }
+        }
       }
     }
   }
