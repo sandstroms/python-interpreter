@@ -20,15 +20,16 @@ function submit() {
          let operator = "";
          if(text[i] && text[i] === ' ') {
            i++;
-           if(text[i] === '>' || text[i] === '<') {
-             operator = text[i];
+           if(text[i] === '=') {
              i++;
-             if(text[i] && text[i] === ' ') {
-               i++;
-               while(text[i] && isNumberRegexp.test(text[i])) {
-                 num2 += text[i];
-                 i++;
-               }
+             if(text[i] === '=') {
+               operator = '==';
+             }
+             num2 = getSecondNumber(isNumberRegexp, text, i);
+           } else {
+             if(text[i] === '>' || text[i] === '<') {
+               operator = text[i];
+               num2 = getSecondNumber(isNumberRegexp, text, i);
              }
            }
          }
@@ -42,6 +43,12 @@ function submit() {
            }
          } else if(operator === '>') {
            if(num1AsNum > num2AsNum) {
+             document.getElementById("output").innerHTML = "True";
+           } else {
+             document.getElementById("output").innerHTML = "False";
+           }
+         } else if(operator === '==') {
+           if(num1AsNum === num2AsNum) {
              document.getElementById("output").innerHTML = "True";
            } else {
              document.getElementById("output").innerHTML = "False";
@@ -77,4 +84,17 @@ function submit() {
       }
     }
   }
+}
+
+function getSecondNumber(isNumberRegexp, text, i) {
+  let num2 = "";
+  i++;
+  if(text[i] && text[i] === ' ') {
+    i++;
+    while(text[i] && isNumberRegexp.test(text[i])) {
+      num2 += text[i];
+      i++;
+    }
+  }
+  return num2;
 }
