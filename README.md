@@ -1,1 +1,1 @@
-This Python Interpreter only works with print statements, including print statements with operators ('<', '>', '==').
+This Python Interpreter allows you to assign a number to one variable and subsequently print the value. It also works with print statements with double quotes (not single quotes). It can perform print statements with operators ('<', '>', '==').
