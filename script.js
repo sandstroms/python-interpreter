@@ -27,7 +27,7 @@ function submit() {
              }
              num2 = getSecondNumber(isNumberRegexp, text, i);
            } else {
-             if(text[i] === '>' || text[i] === '<') {
+             if(text[i] === '>' || text[i] === '<' || text[i] === '+') {
                operator = text[i];
                num2 = getSecondNumber(isNumberRegexp, text, i);
              }
@@ -53,6 +53,8 @@ function submit() {
            } else {
              document.getElementById("output").innerHTML = "False";
            }
+         } else if(operator === '+') {
+           document.getElementById("output").innerHTML = num1AsNum + num2AsNum;
          }
        } else {
          let i = 7;
