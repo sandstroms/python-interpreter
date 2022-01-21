@@ -1,6 +1,8 @@
+let variableObject = {};
+
 function submit() {
   let text = document.getElementById("input").value;
-  let isNumberRegexp = new RegExp("[0-9]")
+  let isNumberRegexp = new RegExp("[0-9]");
   if(text[0] && text[0] === 'p' && text[1] && text[1] === 'r' &&
      text[2] && text[2] === 'i' && text[3] && text[3] === 'n' &&
      text[4] && text[4] === 't') {
@@ -79,8 +81,18 @@ function submit() {
                output += text[i];
                i++;
              }
+             i++;
+           } else {
+             let variableName = "";
+             i = 6;
+             while(text[i] && text[i] !== ')') {
+               variableName += text[i];
+               i++;
+             }
+             if(variableObject[variableName] !== undefined) {
+               output = variableObject[variableName];
+             }
            }
-           i++;
            if(text[i] && text[i] === ')') {
              document.getElementById("output").innerHTML = output;
            } else {
@@ -103,28 +115,27 @@ function submit() {
         i++;
       }
       i++;
+      let variableValue = "";
       if(text[i] && text[i] == '=') {
         i++;
         if(text[i] && text[i] == ' ') {
           i++;
-          if(text[i] && text[i] == '"') {
-            let variableValue = "";
+          if(text[i] && text[i] == '"')
             i++;
             while(text[i] && text[i] !== '"') {
               variableValue += text[i];
               i++;
             }
           } else {
-            let variableValue = "";
             while(text[i] && isNumberRegexp.test(text[i])) {
               variableValue += text[i];
               i++;
             }
           }
+          variableObject[varName] = variableValue;
         }
       }
     }
-  }
 }
 
 function getSecondNumber(isNumberRegexp, text, i) {
