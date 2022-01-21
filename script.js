@@ -83,6 +83,8 @@ function submit() {
            i++;
            if(text[i] && text[i] === ')') {
              document.getElementById("output").innerHTML = output;
+           } else {
+             document.getElementById("output").innerHTML = "Invalid format";
            }
          }
   } else {
