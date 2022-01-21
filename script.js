@@ -7,7 +7,7 @@ function submit() {
        let stack = [];
        if(text[5] && text[5] === '(') {
          stack.push(text[5]);
-       };
+       }
        let output = "";
        if(text[6] && isNumberRegexp.test(text[6])) {
          let num1 = text[6];
@@ -25,52 +25,66 @@ function submit() {
              if(text[i] === '=') {
                operator = '==';
              }
-             num2 = getSecondNumber(isNumberRegexp, text, i);
+             let nums = getSecondNumber(isNumberRegexp, text, i);
+             num2 = nums[0];
+             i = nums[1];
+             if(text[i] && text[i] === ')') {
+               stack.pop();
+             }
            } else {
              if(text[i] === '>' || text[i] === '<' || text[i] === '+' || text[i] === '-') {
                operator = text[i];
-               num2 = getSecondNumber(isNumberRegexp, text, i);
+               let nums = getSecondNumber(isNumberRegexp, text, i);
+               num2 = nums[0];
+               i = nums[1];
+               if(text[i] && text[i] === ')') {
+                 stack.pop();
+               }
              }
            }
          }
-         let num1AsNum = Number(num1);
-         let num2AsNum = Number(num2);
-         if(operator === '<') {
-           if(num1AsNum < num2AsNum) {
-             document.getElementById("output").innerHTML = "True";
-           } else {
-             document.getElementById("output").innerHTML = "False";
+         if(stack.length == 0) {
+           let num1AsNum = Number(num1);
+           let num2AsNum = Number(num2);
+           if(operator === '<') {
+             if(num1AsNum < num2AsNum) {
+               document.getElementById("output").innerHTML = "True";
+             } else {
+               document.getElementById("output").innerHTML = "False";
+             }
+           } else if(operator === '>') {
+             if(num1AsNum > num2AsNum) {
+               document.getElementById("output").innerHTML = "True";
+             } else {
+               document.getElementById("output").innerHTML = "False";
+             }
+           } else if(operator === '==') {
+             if(num1AsNum === num2AsNum) {
+               document.getElementById("output").innerHTML = "True";
+             } else {
+               document.getElementById("output").innerHTML = "False";
+             }
+           } else if(operator === '+') {
+             document.getElementById("output").innerHTML = num1AsNum + num2AsNum;
+           } else if(operator === '-') {
+             document.getElementById("output").innerHTML = num1AsNum - num2AsNum;
            }
-         } else if(operator === '>') {
-           if(num1AsNum > num2AsNum) {
-             document.getElementById("output").innerHTML = "True";
-           } else {
-             document.getElementById("output").innerHTML = "False";
-           }
-         } else if(operator === '==') {
-           if(num1AsNum === num2AsNum) {
-             document.getElementById("output").innerHTML = "True";
-           } else {
-             document.getElementById("output").innerHTML = "False";
-           }
-         } else if(operator === '+') {
-           document.getElementById("output").innerHTML = num1AsNum + num2AsNum;
-         } else if(operator === '-') {
-           document.getElementById("output").innerHTML = num1AsNum - num2AsNum;
+         } else {
+           document.getElementById("output").innerHTML = "Invalid format";
          }
        } else {
-         let i = 7;
-         if(text[6] && text[6] === '"') {
-           while(text[i] && text[i] !== '"') {
-             output += text[i];
-             i++;
+           let i = 7;
+           if(text[6] && text[6] === '"') {
+             while(text[i] && text[i] !== '"') {
+               output += text[i];
+               i++;
+             }
+           }
+           i++;
+           if(text[i] && text[i] === ')') {
+             document.getElementById("output").innerHTML = output;
            }
          }
-         i++;
-         if(text[i] && text[i] === ')') {
-           document.getElementById("output").innerHTML = output;
-         }
-       }
   } else {
     let firstCharacterOfVarRegexp = new RegExp("[a-z]", "i");
     let restOfVarRegexp = new RegExp("[a-z0-9_]", "i");
@@ -121,5 +135,5 @@ function getSecondNumber(isNumberRegexp, text, i) {
       i++;
     }
   }
-  return num2;
+  return [num2, i];
 }
