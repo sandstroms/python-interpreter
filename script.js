@@ -106,7 +106,7 @@ function submit() {
     if(text[0] && firstCharacterOfVarRegexp.test(text[0])) {
       let varName = text[0];
       let i = 1;
-      while(text[i] && text[i] !== ' ') {
+      while(text[i] && text[i] !== ' ' && text[i] !== '=') {
         if(!restOfVarRegexp.test(text[i])) {
           document.getElementById("output").innerHTML = "Invalid variable name";
           break;
@@ -114,25 +114,25 @@ function submit() {
         varName += text[i];
         i++;
       }
-      i++;
       let variableValue = "";
-      if(text[i] && text[i] == '=') {
+      if(text[i] && text[i] === ' ') {
         i++;
-        if(text[i] && text[i] == ' ') {
+      }
+      if(text[i] && text[i] === '=') {
+        i++;
+        if(text[i] && text[i] == '"') {
           i++;
-          if(text[i] && text[i] == '"')
+          while(text[i] && text[i] !== '"') {
+            variableValue += text[i];
             i++;
-            while(text[i] && text[i] !== '"') {
-              variableValue += text[i];
-              i++;
-            }
-          } else {
-            while(text[i] && isNumberRegexp.test(text[i])) {
-              variableValue += text[i];
-              i++;
-            }
           }
-          variableObject[varName] = variableValue;
+        } else {
+          while(text[i] && isNumberRegexp.test(text[i])) {
+            variableValue += text[i];
+            i++;
+          }
+        }
+        variableObject[varName] = variableValue;
         }
       }
     }
