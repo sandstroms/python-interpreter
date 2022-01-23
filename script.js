@@ -1,4 +1,5 @@
 let variableObject = {};
+let variables = [];
 
 function submit() {
   let text = document.getElementById("input").value;
@@ -120,7 +121,10 @@ function submit() {
       }
       if(text[i] && text[i] === '=') {
         i++;
-        if(text[i] && text[i] == '"') {
+        if(text[i] && text[i] === ' ') {
+          i++;
+        }
+        if(text[i] && text[i] === '"') {
           i++;
           while(text[i] && text[i] !== '"') {
             variableValue += text[i];
