@@ -1,1 +1,1 @@
-This Python Interpreter allows you to assign values to variables and subsequently print the values. It also works with print statements. It can perform print statements with operators ('<', '>', '==').
+This Python Interpreter allows you to assign values to variables and subsequently print the values. It can also print variable values as uppercase or lowercase. It also works with print statements. It can perform print statements with operators ('<', '>', '=='). 
