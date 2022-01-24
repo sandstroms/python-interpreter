@@ -95,13 +95,21 @@ function submit() {
                   text[i+2] === 'p' && text[i+3] && text[i+3] === 'p' &&
                   text[i+4] && text[i+4] === 'e' && text[i+5] &&
                   text[i+5] === 'r' && text[i+6] && text[i+6] === '(' &&
-                  text[i+7] && text[i+7] === ')' && text[i+8] &&
-                  text[i+8] === ')') {
+                  text[i+7] && text[i+7] === ')') {
                     if(variableObject[variableName] !== undefined) {
                       output = variableObject[variableName].toUpperCase();
                     }
                     i += 8;
-                  }
+               } else if(text[i+1] && text[i+1] === 'l' && text[i+2] &&
+                         text[i+2] === 'o' && text[i+3] && text[i+3] === 'w' &&
+                         text[i+4] && text[i+4] === 'e' && text[i+5] &&
+                         text[i+5] === 'r' && text[i+6] && text[i+6] === '(' &&
+                         text[i+7] && text[i+7] === ')') {
+                   if(variableObject[variableName] !== undefined) {
+                     output = variableObject[variableName].toLowerCase();
+                   }
+                   i += 8;
+               }
              } else {
                if(variableObject[variableName] !== undefined) {
                  output = variableObject[variableName];
