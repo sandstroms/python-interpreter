@@ -86,12 +86,26 @@ function submit() {
            } else {
              let variableName = "";
              i = 6;
-             while(text[i] && text[i] !== ')') {
+             while(text[i] && text[i] !== ')' && text[i] !== '.') {
                variableName += text[i];
                i++;
              }
-             if(variableObject[variableName] !== undefined) {
-               output = variableObject[variableName];
+             if(text[i] === '.') {
+               if(text[i+1] && text[i+1] === 'u' && text[i+2] &&
+                  text[i+2] === 'p' && text[i+3] && text[i+3] === 'p' &&
+                  text[i+4] && text[i+4] === 'e' && text[i+5] &&
+                  text[i+5] === 'r' && text[i+6] && text[i+6] === '(' &&
+                  text[i+7] && text[i+7] === ')' && text[i+8] &&
+                  text[i+8] === ')') {
+                    if(variableObject[variableName] !== undefined) {
+                      output = variableObject[variableName].toUpperCase();
+                    }
+                    i += 8;
+                  }
+             } else {
+               if(variableObject[variableName] !== undefined) {
+                 output = variableObject[variableName];
+               }
              }
            }
            if(text[i] && text[i] === ')') {
