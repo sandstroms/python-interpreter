@@ -77,8 +77,8 @@ function submit() {
          }
        } else {
            let i = 7;
-           if(text[6] && text[6] === '"') {
-             while(text[i] && text[i] !== '"') {
+           if(text[6] && text[6] === '"' || text[6] === "'") {
+             while(text[i] && text[i] !== '"' && text[i] !== "'") {
                output += text[i];
                i++;
              }
