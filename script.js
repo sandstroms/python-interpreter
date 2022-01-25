@@ -146,6 +146,22 @@ function submit() {
         if(text[i] && text[i] === ' ') {
           i++;
         }
+        if(text[i] && text[i] === 's' && text[i+1] &&
+           text[i+1] === 't' && text[i+2] && text[i+2] === 'r') {
+           i += 2;
+           let number = "";
+           if(text[i+1] && text[i+1] === '(') {
+             i += 2;
+             let numberRegex = new RegExp("[0-9]");
+             while(text[i] && numberRegex.test(text[i])) {
+               number += text[i];
+               i++;
+             }
+             if(text[i] === ')') {
+               variableValue = number;
+             }
+           }
+        }
         if(text[i] && text[i] === '"') {
           i++;
           while(text[i] && text[i] !== '"') {
