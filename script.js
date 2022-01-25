@@ -1,5 +1,5 @@
 let variableObject = {};
-let variables = [];
+let variableType = {};
 
 function submit() {
   let text = document.getElementById("input").value;
@@ -12,69 +12,88 @@ function submit() {
          stack.push(text[5]);
        }
        let output = "";
-       if(text[6] && isNumberRegexp.test(text[6])) {
-         let num1 = text[6];
-         let i = 7;
-         while(text[i] && isNumberRegexp.test(text[i]) && text[i] !== ' ') {
-           num1 += text[i];
-           i++;
-         }
-         let num2 = "";
-         let operator = "";
-         if(text[i] && text[i] === ' ') {
-           i++;
-           if(text[i] === '=') {
+       if(text[6] && text[6] === 't' && text[7] && text[7] === 'y'
+          && text[8] && text[8] === 'p' && text[9] && text[9] === 'e') {
+          if(text[10] && text[10] === '(') {
+            let i = 10;
+            let firstCharacterOfVarRegexp = new RegExp("[a-z]", "i");
+            let restOfVarRegexp = new RegExp("[a-z0-9_]", "i");
+            let variableName = "";
+            if(text[i+1] && firstCharacterOfVarRegexp.test(text[i+1])) {
+              variableName += text[i+1];
+              i += 2;
+              while(text[i] && restOfVarRegexp.test(text[i])) {
+                variableName += text[i];
+                i++;
+              }
+            }
+            if(text[i+1] && text[i+1] === ')') {
+              document.getElementById("output").innerHTML = variableType[variableName];
+            }
+          }
+       } else if(text[6] && isNumberRegexp.test(text[6])) {
+           let num1 = text[6];
+           let i = 7;
+           while(text[i] && isNumberRegexp.test(text[i]) && text[i] !== ' ') {
+             num1 += text[i];
+             i++;
+           }
+           let num2 = "";
+           let operator = "";
+           if(text[i] && text[i] === ' ') {
              i++;
              if(text[i] === '=') {
-               operator = '==';
-             }
-             let nums = getSecondNumber(isNumberRegexp, text, i);
-             num2 = nums[0];
-             i = nums[1];
-             if(text[i] && text[i] === ')') {
-               stack.pop();
-             }
-           } else {
-             if(text[i] === '>' || text[i] === '<' || text[i] === '+' || text[i] === '-') {
-               operator = text[i];
+               i++;
+               if(text[i] === '=') {
+                 operator = '==';
+               }
                let nums = getSecondNumber(isNumberRegexp, text, i);
                num2 = nums[0];
                i = nums[1];
                if(text[i] && text[i] === ')') {
                  stack.pop();
                }
+             } else {
+               if(text[i] === '>' || text[i] === '<' || text[i] === '+' || text[i] === '-') {
+                 operator = text[i];
+                 let nums = getSecondNumber(isNumberRegexp, text, i);
+                 num2 = nums[0];
+                 i = nums[1];
+                 if(text[i] && text[i] === ')') {
+                   stack.pop();
+                 }
+               }
              }
            }
-         }
-         if(stack.length == 0) {
-           let num1AsNum = Number(num1);
-           let num2AsNum = Number(num2);
-           if(operator === '<') {
-             if(num1AsNum < num2AsNum) {
-               document.getElementById("output").innerHTML = "True";
-             } else {
-               document.getElementById("output").innerHTML = "False";
+           if(stack.length == 0) {
+             let num1AsNum = Number(num1);
+             let num2AsNum = Number(num2);
+             if(operator === '<') {
+               if(num1AsNum < num2AsNum) {
+                 document.getElementById("output").innerHTML = "True";
+               } else {
+                 document.getElementById("output").innerHTML = "False";
+               }
+             } else if(operator === '>') {
+               if(num1AsNum > num2AsNum) {
+                 document.getElementById("output").innerHTML = "True";
+               } else {
+                 document.getElementById("output").innerHTML = "False";
+               }
+             } else if(operator === '==') {
+               if(num1AsNum === num2AsNum) {
+                 document.getElementById("output").innerHTML = "True";
+               } else {
+                 document.getElementById("output").innerHTML = "False";
+               }
+             } else if(operator === '+') {
+               document.getElementById("output").innerHTML = num1AsNum + num2AsNum;
+             } else if(operator === '-') {
+               document.getElementById("output").innerHTML = num1AsNum - num2AsNum;
              }
-           } else if(operator === '>') {
-             if(num1AsNum > num2AsNum) {
-               document.getElementById("output").innerHTML = "True";
-             } else {
-               document.getElementById("output").innerHTML = "False";
-             }
-           } else if(operator === '==') {
-             if(num1AsNum === num2AsNum) {
-               document.getElementById("output").innerHTML = "True";
-             } else {
-               document.getElementById("output").innerHTML = "False";
-             }
-           } else if(operator === '+') {
-             document.getElementById("output").innerHTML = num1AsNum + num2AsNum;
-           } else if(operator === '-') {
-             document.getElementById("output").innerHTML = num1AsNum - num2AsNum;
+           } else {
+             document.getElementById("output").innerHTML = "Invalid format";
            }
-         } else {
-           document.getElementById("output").innerHTML = "Invalid format";
-         }
        } else {
            let i = 7;
            if(text[6] && text[6] === '"' || text[6] === "'") {
@@ -159,6 +178,7 @@ function submit() {
              }
              if(text[i] === ')') {
                variableValue = number;
+               variableType[varName] = 'str';
              }
            }
         }
@@ -166,11 +186,13 @@ function submit() {
           i++;
           while(text[i] && text[i] !== '"') {
             variableValue += text[i];
+            variableType[varName] = 'str';
             i++;
           }
         } else {
           while(text[i] && isNumberRegexp.test(text[i])) {
             variableValue += text[i];
+            variableType[varName] = 'int';
             i++;
           }
         }
