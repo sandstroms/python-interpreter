@@ -182,6 +182,26 @@ function submit() {
              }
            }
         }
+        if(text[i] && text[i] === 'i' && text[i+1] &&
+           text[i+1] === 'n' && text[i+2] && text[i+2] === 't') {
+             i += 2;
+             let int = "";
+             if(text[i+1] && text[i+1] === '(') {
+               i += 2;
+               if(text[i] && text[i] === '"') {
+                 i++;
+                 while(text[i] && text[i] !== '"') {
+                   int += text[i];
+                   i++;
+                 }
+                 if(text[i] === '"') {
+                   variableValue = parseInt(int);
+                   variableType[varName] = "int";
+                   i++;
+                 }
+               }
+             }
+        }
         if(text[i] && text[i] === '"') {
           i++;
           while(text[i] && text[i] !== '"') {
