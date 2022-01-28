@@ -300,6 +300,9 @@ function printStatement(isNumberRegexp, text, i) {
                     tempOutput += list[i][j]
                   }
                 }
+                if(i != list.length-1) {
+                  tempOutput += ", ";
+                }
               }
               tempOutput += "]";
               output = tempOutput;
