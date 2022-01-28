@@ -193,65 +193,69 @@ function printStatement(isNumberRegexp, text, i) {
   } else if(text[i] && isNumberRegexp.test(text[i])) {
       let num1 = text[i];
       i++;
-      while(text[i] && isNumberRegexp.test(text[i]) && text[i] !== ' ') {
+      while(text[i] && isNumberRegexp.test(text[i]) && text[i] !== ' ' && text[i] !== ')') {
         num1 += text[i];
         i++;
       }
-      let num2 = "";
-      let operator = "";
-      if(text[i] && text[i] === ' ') {
-        i++;
-        if(text[i] === '=') {
+      if(text[i] === ')') {
+        document.getElementById("output").innerHTML = num1;
+      } else {
+        let num2 = "";
+        let operator = "";
+        if(text[i] && text[i] === ' ') {
           i++;
           if(text[i] === '=') {
-            operator = '==';
-          }
-          let nums = getSecondNumber(isNumberRegexp, text, i);
-          num2 = nums[0];
-          i = nums[1];
-          if(text[i] && text[i] === ')') {
-            stack.pop();
-          }
-        } else {
-          if(text[i] === '>' || text[i] === '<' || text[i] === '+' || text[i] === '-') {
-            operator = text[i];
+            i++;
+            if(text[i] === '=') {
+              operator = '==';
+            }
             let nums = getSecondNumber(isNumberRegexp, text, i);
             num2 = nums[0];
             i = nums[1];
             if(text[i] && text[i] === ')') {
               stack.pop();
             }
+          } else {
+            if(text[i] === '>' || text[i] === '<' || text[i] === '+' || text[i] === '-') {
+              operator = text[i];
+              let nums = getSecondNumber(isNumberRegexp, text, i);
+              num2 = nums[0];
+              i = nums[1];
+              if(text[i] && text[i] === ')') {
+                stack.pop();
+              }
+            }
           }
         }
-      }
-      if(stack.length == 0) {
-        let num1AsNum = Number(num1);
-        let num2AsNum = Number(num2);
-        if(operator === '<') {
-          if(num1AsNum < num2AsNum) {
-            document.getElementById("output").innerHTML = "True";
-          } else {
-            document.getElementById("output").innerHTML = "False";
+        if(stack.length == 0) {
+          let num1AsNum = Number(num1);
+          let num2AsNum = Number(num2);
+          if(operator === '<') {
+            if(num1AsNum < num2AsNum) {
+              document.getElementById("output").innerHTML = "True";
+            } else {
+              document.getElementById("output").innerHTML = "False";
+            }
+          } else if(operator === '>') {
+            if(num1AsNum > num2AsNum) {
+              document.getElementById("output").innerHTML = "True";
+            } else {
+              document.getElementById("output").innerHTML = "False";
+            }
+          } else if(operator === '==') {
+            if(num1AsNum === num2AsNum) {
+              document.getElementById("output").innerHTML = "True";
+            } else {
+              document.getElementById("output").innerHTML = "False";
+            }
+          } else if(operator === '+') {
+            document.getElementById("output").innerHTML = num1AsNum + num2AsNum;
+          } else if(operator === '-') {
+            document.getElementById("output").innerHTML = num1AsNum - num2AsNum;
           }
-        } else if(operator === '>') {
-          if(num1AsNum > num2AsNum) {
-            document.getElementById("output").innerHTML = "True";
-          } else {
-            document.getElementById("output").innerHTML = "False";
-          }
-        } else if(operator === '==') {
-          if(num1AsNum === num2AsNum) {
-            document.getElementById("output").innerHTML = "True";
-          } else {
-            document.getElementById("output").innerHTML = "False";
-          }
-        } else if(operator === '+') {
-          document.getElementById("output").innerHTML = num1AsNum + num2AsNum;
-        } else if(operator === '-') {
-          document.getElementById("output").innerHTML = num1AsNum - num2AsNum;
+        } else {
+          document.getElementById("output").innerHTML = "Invalid format";
         }
-      } else {
-        document.getElementById("output").innerHTML = "Invalid format";
       }
   } else {
       if(text[i] && text[i] === '"' || text[i] === "'") {
