@@ -3,7 +3,7 @@ let variableType = {};
 
 function submit() {
   let text = document.getElementById("input").value;
-  let isNumberRegexp = new RegExp("[0-9]");
+  let isNumberRegexp = new RegExp("[-0-9.]");
   let firstCharacterOfVarRegexp = new RegExp("[a-z]", "i");
   if(text[0] && text[0] === 'p' && text[1] && text[1] === 'r' &&
      text[2] && text[2] === 'i' && text[3] && text[3] === 'n' &&
@@ -151,11 +151,19 @@ function submit() {
         variableType[varName] = 'list';
         variableObject[varName] = list;
       } else {
+        let isFloat = false;
         while(text[i] && isNumberRegexp.test(text[i])) {
           variableValue += text[i];
-          variableType[varName] = 'int';
+          if(text[i] === '.') {
+            isFloat = true;
+          }
           i++;
-          variableObject[varName] = variableValue;
+        }
+        variableObject[varName] = variableValue;
+        if(isFloat) {
+          variableType[varName] = 'float';
+        } else {
+          variableType[varName] = 'int';
         }
       }
       }
@@ -189,7 +197,6 @@ function printStatement(isNumberRegexp, text, i) {
          document.getElementById("output").innerHTML = variableType[variableName];
        }
      }
-     //TODO: make sure this can accept only one number
   } else if(text[i] && isNumberRegexp.test(text[i])) {
       let num1 = text[i];
       i++;
