@@ -144,7 +144,6 @@ function submit() {
           while(text[i] && text[i] !== ',' && text[i] !== ']') {
             listItem += text[i];
             i++;
-            console.log("text[i]: " + text[i]);
           }
           list.push(listItem);
         }
@@ -289,7 +288,24 @@ function printStatement(isNumberRegexp, text, i) {
           }
         } else {
           if(variableObject[variableName] !== undefined) {
-            output = variableObject[variableName];
+            if(variableType[variableName] === 'list') {
+              let list = variableObject[variableName];
+              let tempOutput = "[";
+              for(let i = 0; i < list.length; i++) {
+                for(let j = 0; j < list[i].length; j++) {
+                  console.log("list[i][j]: " + list[i][j]);
+                  if(list[i][j] === '"') {
+                    tempOutput += "'";
+                  } else {
+                    tempOutput += list[i][j]
+                  }
+                }
+              }
+              tempOutput += "]";
+              output = tempOutput;
+            } else {
+              output = variableObject[variableName];
+            }
           }
         }
       }
