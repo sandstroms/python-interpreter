@@ -135,14 +135,29 @@ function submit() {
           variableType[varName] = 'str';
           i++;
         }
+        variableObject[varName] = variableValue;
+      } else if(text[i] && text[i] === '[') {
+        i++;
+        let list = [];
+        while(text[i] && text[i] !== ']') {
+          let listItem = "";
+          while(text[i] && text[i] !== ',' && text[i] !== ']') {
+            listItem += text[i];
+            i++;
+            console.log("text[i]: " + text[i]);
+          }
+          list.push(listItem);
+        }
+        variableType[varName] = 'list';
+        variableObject[varName] = list;
       } else {
         while(text[i] && isNumberRegexp.test(text[i])) {
           variableValue += text[i];
           variableType[varName] = 'int';
           i++;
+          variableObject[varName] = variableValue;
         }
       }
-      variableObject[varName] = variableValue;
       }
     }
 }
@@ -174,6 +189,7 @@ function printStatement(isNumberRegexp, text, i) {
          document.getElementById("output").innerHTML = variableType[variableName];
        }
      }
+     //TODO: make sure this can accept only one number
   } else if(text[i] && isNumberRegexp.test(text[i])) {
       let num1 = text[i];
       i++;
