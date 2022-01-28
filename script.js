@@ -146,6 +146,7 @@ function submit() {
             i++;
           }
           list.push(listItem);
+          i++;
         }
         variableType[varName] = 'list';
         variableObject[varName] = list;
@@ -293,7 +294,6 @@ function printStatement(isNumberRegexp, text, i) {
               let tempOutput = "[";
               for(let i = 0; i < list.length; i++) {
                 for(let j = 0; j < list[i].length; j++) {
-                  console.log("list[i][j]: " + list[i][j]);
                   if(list[i][j] === '"') {
                     tempOutput += "'";
                   } else {
