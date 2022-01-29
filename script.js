@@ -91,13 +91,13 @@ function submit() {
       if(text[i] && text[i] === ' ') {
         i++;
       }
+      let numberRegex = new RegExp("[-0-9.]");
       if(text[i] && text[i] === 's' && text[i+1] &&
          text[i+1] === 't' && text[i+2] && text[i+2] === 'r') {
          i += 2;
          let number = "";
          if(text[i+1] && text[i+1] === '(') {
            i += 2;
-           let numberRegex = new RegExp("[0-9]");
            while(text[i] && numberRegex.test(text[i])) {
              number += text[i];
              i++;
@@ -127,6 +127,25 @@ function submit() {
                }
              }
            }
+      }
+      // TODO: finish this
+      if(text[i] && text[i] == 'f' && text[i+1] && text[i+1] == 'l' &&
+         text[i+2] && text[i+2] === 'o' && text[i+3] && text[i+3] === 'a' &&
+         text[i+4] && text[i+4] === 't') {
+           i += 4;
+           let number = "";
+           if(text[i+1] && text[i+1] === '(') {
+             i += 2;
+             while(text[i] && isNumberRegexp.test(text[i])) {
+               number += text[i];
+               i++;
+             }
+             if(text[i] === ')') {
+               variableValue = parseFloat(number);
+               variableType[varName] = 'float';
+             }
+           }
+
       }
       if(text[i] && text[i] === '"') {
         i++;
@@ -163,7 +182,9 @@ function submit() {
         if(isFloat) {
           variableType[varName] = 'float';
         } else {
-          variableType[varName] = 'int';
+          if(!variableType[varName]) {
+            variableType[varName] = 'int';
+          }
         }
       }
       }

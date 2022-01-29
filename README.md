@@ -11,3 +11,5 @@ print(type(x))
 y = "sample"
 print(y.upper())
 print(5 < 10)
+abc = ["abc", "def"]
+print(abc)
