@@ -141,11 +141,10 @@ function submit() {
                i++;
              }
              if(text[i] === ')') {
-               variableValue = parseFloat(number);
+               variableValue = parseAFloat(number);
                variableType[varName] = 'float';
              }
            }
-
       }
       if(text[i] && text[i] === '"') {
         i++;
@@ -189,6 +188,15 @@ function submit() {
       }
       }
     }
+}
+
+function parseAFloat(int) {
+    let isNumberRegexp = new RegExp("[-0-9.]");
+    if(isNumberRegexp.test(int)) {
+      int += ".0";
+    }
+
+    return int;
 }
 
 function printStatement(isNumberRegexp, text, i) {
