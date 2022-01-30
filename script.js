@@ -128,7 +128,6 @@ function submit() {
              }
            }
       }
-      // TODO: finish this
       if(text[i] && text[i] == 'f' && text[i+1] && text[i+1] == 'l' &&
          text[i+2] && text[i+2] === 'o' && text[i+3] && text[i+3] === 'a' &&
          text[i+4] && text[i+4] === 't') {
@@ -187,6 +186,8 @@ function submit() {
         }
       }
       }
+    } else if(text[0] === '#') {
+      // do nothing for a comment
     }
 }
 
