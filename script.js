@@ -145,9 +145,9 @@ function submit() {
              }
            }
       }
-      if(text[i] && text[i] === '"') {
+      if(text[i] && text[i] === "\"" || text[i] === "'") {
         i++;
-        while(text[i] && text[i] !== '"') {
+        while(text[i] && text[i] !== "\"" && text[i] !== "'") {
           variableValue += text[i];
           variableType[varName] = 'str';
           i++;
