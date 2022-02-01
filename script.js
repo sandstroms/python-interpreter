@@ -146,13 +146,18 @@ function submit() {
            }
       }
       if(text[i] && text[i] === "\"" || text[i] === "'") {
+        let quote = text[i];
         i++;
         while(text[i] && text[i] !== "\"" && text[i] !== "'") {
           variableValue += text[i];
           variableType[varName] = 'str';
           i++;
         }
-        variableObject[varName] = variableValue;
+        if(quote === text[i]) {
+          variableObject[varName] = variableValue;
+        } else {
+          document.getElementById("output").innerHTML = "Unmatching quotes"
+        }
       } else if(text[i] && text[i] === '[') {
         i++;
         let list = [];
