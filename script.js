@@ -145,6 +145,27 @@ function submit() {
              }
            }
       }
+      // TODO: finish this
+      if(text[i] && text[i] === 'j' && text[i+1] && text[i+1] === 's' &&
+         text[i+2] && text[i+2] === 'o' && text[i+3] && text[i+3] === 'n' &&
+         text[i+4] && text[i+4] === '.' && text[i+5] && text[i+5] === 'l' &&
+         text[i+6] && text[i+6] === 'o' && text[i+7] && text[i+7] === 'a' &&
+         text[i+8] && text[i+8] === 'd' && text[i+9] && text[i+9] === 's') {
+           i += 10;
+           if(text[i] && text[i] === '(') {
+             let pythonDict = {};
+             i++;
+             if(text[i] && text[i] === "'") {
+               i++;
+               if(text[i] && text[i] === "{") {
+                 i++;
+                 pythonDict = parseJson(text, i);
+
+                 variableObject[varName] = pythonDict;
+               }
+             }
+           }
+      }
       if(text[i] && text[i] === "\"" || text[i] === "'") {
         let quote = text[i];
         i++;
@@ -203,6 +224,58 @@ function parseAFloat(int) {
     }
 
     return int;
+}
+
+function parseJson(text, i) {
+  let pythonDict = {};
+  [pythonDict, i] = parseKeyValue(pythonDict, text, i);
+  i += 2;
+  [pythonDict, i] = parseKeyValue(pythonDict, text, i);
+  i += 2;
+  [pythonDict, i] = parseKeyValue(pythonDict, text, i);
+  if(text[i] && text[i] === "}" && text[i+1] && text[i+1] === "'" &&
+     text[i+2] && text[i+2] === ")") {
+    return pythonDict;
+  } else {
+    return undefined;
+  }
+}
+
+function isANumber(value) {
+  let numberRegex = new RegExp("[-0-9.]");
+  return numberRegex.test(value);
+}
+
+function parseKeyValue(pythonDict, text, i) {
+  let key = "";
+  let value = "";
+  if(text[i] && text[i] === "\"") {
+    i++;
+    while (text[i] && text[i] !== "\"") {
+      key += text[i];
+      i++;
+    }
+    i++;
+    if(text[i] && text[i] === ":") {
+      i += 2; // ignore the space
+      if(text[i] && text[i] === "\"") {
+        i++;
+        while(text[i] && text[i] !== "\"") {
+          value += text[i];
+          i++;
+        }
+        i++;
+      } else if(isANumber(text[i])) {
+        while(text[i] && text[i] !== "," && text[i] !== "}") {
+          value += text[i]
+          i++;
+        }
+        value = Number(value);
+      }
+    }
+  }
+  pythonDict[key] = value;
+  return [pythonDict, i];
 }
 
 function printStatement(isNumberRegexp, text, i) {
@@ -365,6 +438,7 @@ function printStatement(isNumberRegexp, text, i) {
       }
     }
 }
+
 function getSecondNumber(isNumberRegexp, text, i) {
   let num2 = "";
   i++;
