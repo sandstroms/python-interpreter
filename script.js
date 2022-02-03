@@ -1,5 +1,6 @@
 let variableObject = {};
 let variableType = {};
+let variableArr = [];
 
 function submit() {
   let text = document.getElementById("input").value;
@@ -160,8 +161,7 @@ function submit() {
                if(text[i] && text[i] === "{") {
                  i++;
                  pythonDict = parseJson(text, i);
-
-                 variableObject[varName] = pythonDict;
+                 variableArr[0] = pythonDict;
                }
              }
            }
@@ -382,7 +382,7 @@ function printStatement(isNumberRegexp, text, i) {
         i++;
       } else {
         let variableName = "";
-        while(text[i] && text[i] !== ')' && text[i] !== '.') {
+        while(text[i] && text[i] !== ')' && text[i] !== '.' && text[i] !== '[') {
           variableName += text[i];
           i++;
         }
@@ -405,6 +405,24 @@ function printStatement(isNumberRegexp, text, i) {
                 output = variableObject[variableName].toLowerCase();
               }
               i += 8;
+          }
+        } else if(text[i] && text[i] === "[")  {
+          i++;
+          if(text[i] && text[i] === "\"") {
+            i++;
+            let key = "";
+            while(text[i] && text[i] !== "\"") {
+              key += text[i];
+              i++;
+            }
+            i++;
+            if(text[i] && text[i] !== "]") {
+              document.getElementById("output").innerHTML = "Square brackets need to be closed";
+              return;
+            } else {
+              i++;
+              output = variableArr[0][key];
+            }
           }
         } else {
           if(variableObject[variableName] !== undefined) {
