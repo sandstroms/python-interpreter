@@ -146,7 +146,6 @@ function submit() {
              }
            }
       }
-      // TODO: finish this
       if(text[i] && text[i] === 'j' && text[i+1] && text[i+1] === 's' &&
          text[i+2] && text[i+2] === 'o' && text[i+3] && text[i+3] === 'n' &&
          text[i+4] && text[i+4] === '.' && text[i+5] && text[i+5] === 'l' &&
