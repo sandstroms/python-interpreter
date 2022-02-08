@@ -15,4 +15,6 @@ abc = ["abc", "def"]
 print(abc)
 x = json.loads('{"hello": "world", "sample": 2, "key": "value"}')
 print(x["sample"])
-a = {"a": "b", "c": "d", "e": "f"}
+abc = {"a": "b", "c": "d", "e": "f"}
+x = json.dumps(abc)
+print(x)
