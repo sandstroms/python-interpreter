@@ -117,8 +117,7 @@ function submit() {
            variableType[varName] = 'str';
          }
        }
-    }
-    if(text[i] && text[i] === 'i' && text[i+1] &&
+    } else if(text[i] && text[i] === 'i' && text[i+1] &&
        text[i+1] === 'n' && text[i+2] && text[i+2] === 't') {
          i += 2;
          let int = "";
@@ -137,8 +136,7 @@ function submit() {
              }
            }
          }
-    }
-    if(text[i] && text[i] == 'f' && text[i+1] && text[i+1] == 'l' &&
+    } else if(text[i] && text[i] == 'f' && text[i+1] && text[i+1] == 'l' &&
        text[i+2] && text[i+2] === 'o' && text[i+3] && text[i+3] === 'a' &&
        text[i+4] && text[i+4] === 't') {
          i += 4;
